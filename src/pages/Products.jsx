@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { products } from "../data/products";
 
 function Products() {
   const products = [

@@ -31,7 +31,7 @@ function Home() {
 
   <div className="hero-stats">
     <div>
-      <strong>6+</strong>
+      <strong>200k+</strong>
       <span>starter products</span>
     </div>
     <div>
@@ -39,8 +39,8 @@ function Home() {
       <span>quiz questions</span>
     </div>
     <div>
-      <strong>3</strong>
-      <span>routine goals</span>
+      <strong>1</strong>
+      <span>custom routine</span>
     </div>
   </div>
 

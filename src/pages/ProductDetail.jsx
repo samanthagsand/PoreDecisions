@@ -1,5 +1,4 @@
 import { Link, useParams } from "react-router-dom";
-import { products } from "../data/products";
 
 // TEMP SAME DATA (later we will share this from one file)
 const products = [
