@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { supabase } from "../supabaseClient";
 import "./Quiz.css";
 
 function Quiz() {
@@ -56,25 +57,66 @@ function Quiz() {
     },
   ];
 
-  const productCatalog = {
-    cleanser: {
-      dry: "CeraVe Hydrating Facial Cleanser",
-      oily: "La Roche-Posay Toleriane Purifying Foaming Cleanser",
-      combination: "La Roche-Posay Toleriane Purifying Foaming Cleanser",
-      sensitive: "CeraVe Hydrating Facial Cleanser",
-    },
-    moisturizer: {
-      dry: "CeraVe Moisturizing Cream",
-      oily: "La Roche-Posay Toleriane Double Repair Matte Moisturizer",
-      combination: "La Roche-Posay Toleriane Double Repair Face Moisturizer",
-      sensitive: "La Roche-Posay Toleriane Double Repair Face Moisturizer",
-    },
-    spf: "EltaMD UV Clear Broad-Spectrum SPF 46",
-    vitaminC: "CeraVe Skin Renewing Vitamin C Serum",
-    eyeCream: "CeraVe Eye Repair Cream",
+  const categoryMap = {
+    Cleanser: 1,
+    Moisturizer: 2,
+    Sunscreen: 3,
+    Serum: 4,
+    Treatment: 5,
+    "Eye Cream": 6,
+    "Lip Care": 7,
+  };
+  
+  const routineByTime = {
+    twomin: ["Cleanser", "Moisturizer", "Sunscreen"],
+    fivetenmin: ["Cleanser", "Serum", "Moisturizer", "Sunscreen"],
+    fifteentwentymin: [
+      "Cleanser",
+      "Serum",
+      "Moisturizer",
+      "Sunscreen",
+      "Eye Cream",
+    ],
+    fullroutine: [
+      "Cleanser",
+      "Serum",
+      "Moisturizer",
+      "Sunscreen",
+      "Eye Cream",
+    ],
+  };
+  
+  const missingMap = {
+    spf: "Sunscreen",
+    vitaminc: "Serum",
+    moisturizer: "Moisturizer",
+    eyecream: "Eye Cream",
+  };
+  
+  const categoryDisplayNames = {
+    Cleanser: "Cleanser",
+    Serum: "Serum",
+    Moisturizer: "Moisturizer",
+    Sunscreen: "SPF",
+    "Eye Cream": "Eye Cream",
+  };
+
+  const skinTypeMap = {
+    dry: "Dry",
+    oily: "Oily",
+    combination: "Combination",
+    sensitive: "Sensitive",
+  };
+
+  const concernMap = {
+    acne: "Acne",
+    redness: "Redness",
+    darkspots: "Dark Spots",
+    dryness: "Dryness",
   };
 
   const [currentQuestion, setCurrentQuestion] = useState(0);
+
   const [answers, setAnswers] = useState({
     q1: null,
     q2: null,
@@ -82,7 +124,11 @@ function Quiz() {
     q4: null,
     q5: null,
   });
+
   const [showResult, setShowResult] = useState(false);
+  const [routineProducts, setRoutineProducts] = useState([]);
+  const [loadingRoutine, setLoadingRoutine] = useState(false);
+  const [routineError, setRoutineError] = useState("");
 
   const totalQuestions = questions.length;
   const current = questions[currentQuestion];
@@ -94,108 +140,140 @@ function Quiz() {
     }));
   };
 
-  const calculateResult = () => {
-    const skinType = answers.q1;
-    const concern = answers.q2;
-    const time = answers.q3;
-    const ingredientStyle = answers.q4;
-    const missing = answers.q5;
+  const getRoutineTitle = () => {
+    if (answers.q2 === "acne") return "Clear Skin Routine";
+    if (answers.q2 === "redness") return "Calm & Soothe Routine";
+    if (answers.q2 === "darkspots") return "Brightening Routine";
+    if (answers.q2 === "dryness") return "Hydration Boost Routine";
 
-    let title = "Your Personalized Routine";
-    let description = "Here is a skincare routine based on your answers.";
-    let routine = [];
-
-    const cleanser = productCatalog.cleanser[skinType];
-    const moisturizer = productCatalog.moisturizer[skinType];
-    let serum = null;
-    let addOn = null;
-    const sunscreen = productCatalog.spf;
-
-    if (concern === "acne") {
-      title = "Clear Skin Routine";
-      description =
-        "You seem to want a routine that helps balance oil, support clearer-looking skin, and still keep your skin comfortable.";
-      serum = "Niacinamide or blemish-support serum";
-    } else if (concern === "redness") {
-      title = "Calm & Soothe Routine";
-      description =
-        "Your results suggest a gentler routine focused on calming your skin barrier and avoiding overload.";
-      serum = "Soothing barrier-support serum";
-    } else if (concern === "darkspots") {
-      title = "Brightening Routine";
-      description =
-        "Your routine is focused on helping with dullness and uneven tone while keeping your skin hydrated and supported.";
-      serum = productCatalog.vitaminC;
-    } else if (concern === "dryness") {
-      title = "Hydration Boost Routine";
-      description =
-        "Your results point toward a moisture-focused routine that helps your skin feel softer, smoother, and less dull.";
-      serum = "Hydrating serum";
-    }
-
-    if (ingredientStyle === "natural") {
-      description +=
-        " You also prefer a more natural-feeling skincare style, so your routine leans simple and gentle.";
-    } else if (ingredientStyle === "sciencebacked") {
-      description +=
-        " You also prefer science-backed ingredients, so your routine includes products known for barrier support, hydration, and brightening.";
-    } else if (ingredientStyle === "mix") {
-      description +=
-        " You like a balance of gentle and effective ingredients, so this routine mixes comfort with results.";
-    } else if (ingredientStyle === "anything") {
-      description +=
-        " Since you are open to whatever works, your routine is based mostly on function and skin needs.";
-    }
-
-    if (missing === "spf") {
-      addOn = productCatalog.spf;
-    } else if (missing === "vitaminc") {
-      addOn = productCatalog.vitaminC;
-    } else if (missing === "moisturizer") {
-      addOn = moisturizer;
-    } else if (missing === "eyecream") {
-      addOn = productCatalog.eyeCream;
-    }
-
-    if (time === "twomin") {
-      routine = [
-        `Cleanser: ${cleanser}`,
-        `Moisturizer: ${moisturizer}`,
-        `SPF: ${sunscreen}`,
-      ];
-    } else if (time === "fivetenmin") {
-      routine = [
-        `Cleanser: ${cleanser}`,
-        `Treatment: ${serum ? serum : productCatalog.vitaminC}`,
-        `Moisturizer: ${moisturizer}`,
-        `SPF: ${sunscreen}`,
-      ];
-    } else if (time === "fifteentwentymin") {
-      routine = [
-        `AM Cleanser: ${cleanser}`,
-        `AM Serum: ${serum ? serum : productCatalog.vitaminC}`,
-        `Moisturizer: ${moisturizer}`,
-        `SPF: ${sunscreen}`,
-        `Extra Step: ${addOn ? addOn : productCatalog.eyeCream}`,
-      ];
-    } else if (time === "fullroutine") {
-      routine = [
-        `Cleanser: ${cleanser}`,
-        `Treatment Serum: ${serum ? serum : productCatalog.vitaminC}`,
-        `Moisturizer: ${moisturizer}`,
-        `Daily SPF: ${sunscreen}`,
-        `Extra Product: ${addOn ? addOn : productCatalog.eyeCream}`,
-      ];
-    }
-
-    if (addOn && !routine.some((step) => step.includes(addOn))) {
-      routine.push(`Bonus Pick: ${addOn}`);
-    }
-
-    return { title, description, routine };
+    return "Your Personalized Routine";
   };
 
-  const handleNext = () => {
+  const getRoutineDescription = () => {
+    let description = "Here is a skincare routine based on your answers.";
+
+    if (answers.q2 === "acne") {
+      description =
+        "Your routine focuses on balancing oil, supporting clearer-looking skin, and keeping your skin barrier comfortable.";
+    } else if (answers.q2 === "redness") {
+      description =
+        "Your routine focuses on calming products that support the skin barrier without overwhelming sensitive skin.";
+    } else if (answers.q2 === "darkspots") {
+      description =
+        "Your routine focuses on brightening, evening the look of skin tone, and keeping your skin hydrated.";
+    } else if (answers.q2 === "dryness") {
+      description =
+        "Your routine focuses on hydration, softness, and helping your skin feel smoother and less dull.";
+    }
+
+    if (answers.q4 === "natural") {
+      description += " You also prefer a more natural-feeling skincare style.";
+    } else if (answers.q4 === "sciencebacked") {
+      description += " You also prefer science-backed ingredients.";
+    } else if (answers.q4 === "mix") {
+      description += " You like a balance of gentle and effective ingredients.";
+    } else if (answers.q4 === "anything") {
+      description +=
+        " Since you are open to whatever works, your routine is based mostly on skin needs.";
+    }
+
+    return description;
+  };
+
+  const getNeededCategories = () => {
+    const time = answers.q3;
+    const missing = answers.q5;
+
+    let categories =
+      routineByTime[time] || ["cleanser", "moisturizer", "sunscreen"];
+
+    const missingCategory = missingMap[missing];
+
+    if (missingCategory && !categories.includes(missingCategory)) {
+      categories = [...categories, missingCategory];
+    }
+
+    return categories;
+  };
+
+  const fetchBestProductForCategory = async (categoryName) => {
+    const categoryId = categoryMap[categoryName];
+  
+    if (!categoryId) {
+      console.error("No category id found for:", categoryName);
+      return null;
+    }
+  
+    const { data: categoryRows, error: categoryError } = await supabase
+      .from("Product_Category")
+      .select("product_id")
+      .eq("category_id", categoryId)
+      .limit(50);
+  
+    if (categoryError) {
+      console.error(`Error fetching category rows for ${categoryName}:`, categoryError);
+      return null;
+    }
+  
+    const productIds = categoryRows?.map((row) => row.product_id) || [];
+  
+    if (productIds.length === 0) {
+      console.warn(`No product ids found for category: ${categoryName}`);
+      return null;
+    }
+  
+    const { data: products, error: productError } = await supabase
+      .from("Products")
+      .select(`
+        product_id,
+        prod_name,
+        prod_description,
+        product_image_url,
+        brand_id,
+        Brands (
+          brand_name
+        )
+      `)
+      .in("product_id", productIds)
+      .limit(50);
+  
+    if (productError) {
+      console.error(`Error fetching products for ${categoryName}:`, productError);
+      return null;
+    }
+  
+    if (!products || products.length === 0) {
+      return null;
+    }
+  
+    return {
+      ...products[0],
+      categoryName,
+    };
+  };
+
+  const fetchRoutineProducts = async () => {
+    setRoutineError("");
+
+    const neededCategories = getNeededCategories();
+
+    const productPromises = neededCategories.map((category) =>
+      fetchBestProductForCategory(category)
+    );
+
+    const products = await Promise.all(productPromises);
+    const filteredProducts = products.filter(Boolean);
+
+    if (filteredProducts.length === 0) {
+      setRoutineError(
+        "No matching products were found. Check that your category names match the quiz category names."
+      );
+    }
+
+    return filteredProducts;
+  };
+
+  const handleNext = async () => {
     const currentId = questions[currentQuestion].id;
 
     if (!answers[currentId]) {
@@ -205,9 +283,16 @@ function Quiz() {
 
     if (currentQuestion < totalQuestions - 1) {
       setCurrentQuestion(currentQuestion + 1);
-    } else {
-      setShowResult(true);
+      return;
     }
+
+    setLoadingRoutine(true);
+    setShowResult(true);
+
+    const products = await fetchRoutineProducts();
+
+    setRoutineProducts(products);
+    setLoadingRoutine(false);
   };
 
   const handlePrev = () => {
@@ -226,13 +311,14 @@ function Quiz() {
       q5: null,
     });
     setShowResult(false);
+    setRoutineProducts([]);
+    setRoutineError("");
+    setLoadingRoutine(false);
   };
 
   const progressPercent = showResult
     ? 100
     : ((currentQuestion + 1) / totalQuestions) * 100;
-
-  const result = calculateResult();
 
   return (
     <div className="quiz-page">
@@ -240,6 +326,7 @@ function Quiz() {
         <header className="top-bar">
           <h1>PoreDecisions</h1>
           <p>Your personalized skincare routine finder</p>
+
           <Link to="/home" className="home-link">
             Back to Home
           </Link>
@@ -252,6 +339,7 @@ function Quiz() {
               style={{ width: `${progressPercent}%` }}
             ></div>
           </div>
+
           <p className="progress-text">
             {showResult
               ? "Quiz Complete"
@@ -283,12 +371,17 @@ function Quiz() {
               <button
                 id="prevBtn"
                 onClick={handlePrev}
-                style={{ visibility: currentQuestion === 0 ? "hidden" : "visible" }}
+                style={{
+                  visibility: currentQuestion === 0 ? "hidden" : "visible",
+                }}
               >
                 Back
               </button>
+
               <button id="nextBtn" onClick={handleNext}>
-                {currentQuestion === totalQuestions - 1 ? "See Results" : "Next"}
+                {currentQuestion === totalQuestions - 1
+                  ? "See Results"
+                  : "Next"}
               </button>
             </div>
           </main>
@@ -298,17 +391,63 @@ function Quiz() {
               <h2>Your Recommended Routine</h2>
 
               <div className="result-card">
-                <h3>{result.title}</h3>
-                <p>{result.description}</p>
+                <h3>{getRoutineTitle()}</h3>
+                <p>{getRoutineDescription()}</p>
 
-                <div className="routine-steps">
-                  <h4>Suggested Routine:</h4>
-                  <ul>
-                    {result.routine.map((item, index) => (
-                      <li key={index}>{item}</li>
-                    ))}
-                  </ul>
-                </div>
+                {loadingRoutine ? (
+                  <p>Building your routine...</p>
+                ) : routineError ? (
+                  <p className="routine-error">{routineError}</p>
+                ) : (
+                  <div className="routine-steps">
+                    <h4>Suggested Routine:</h4>
+
+                    <div className="routine-product-grid">
+                      {routineProducts.map((product) => (
+                        <div
+                          key={`${product.categoryName}-${product.product_id}`}
+                          className="routine-product-card"
+                        >
+                          {product.product_image_url ? (
+                            <img
+                              src={product.product_image_url}
+                              alt={product.prod_name}
+                              className="routine-product-img"
+                            />
+                          ) : (
+                            <div className="routine-product-placeholder">
+                              🧴
+                            </div>
+                          )}
+
+                          <p className="routine-step-name">
+                            {categoryDisplayNames[product.categoryName] ||
+                              product.categoryName}
+                          </p>
+
+                          <h4>{product.prod_name}</h4>
+
+                          <p className="routine-brand">
+                            {product.Brands?.brand_name || "Unknown Brand"}
+                          </p>
+
+                          {product.prod_description && (
+                            <p className="routine-description">
+                              {product.prod_description}
+                            </p>
+                          )}
+
+                          <Link
+                            to={`/products/${product.product_id}`}
+                            className="routine-view-link"
+                          >
+                            View Product
+                          </Link>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
 
               <button id="restartBtn" onClick={handleRestart}>
