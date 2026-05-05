@@ -7,6 +7,7 @@ import Reviews from "./pages/Reviews";
 import Products from "./pages/Products";
 import ProductDetail from "./pages/ProductDetail";
 import Quiz from "./pages/Quiz";
+import Skin from "./pages/Skin";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="/products" element={<Products />} />
         <Route path="/products/:id" element={<ProductDetail />} />
         <Route path="/quiz" element={<Quiz />} />
+        <Route path="/skin" element={<Skin />} />
       </Routes>
     </>
   );
