@@ -12,10 +12,12 @@ function Reviews() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedProductId, setSelectedProductId] = useState(null);
   const [userRating, setUserRating] = useState(0);
+  const [reviewTitle, setReviewTitle] = useState("");
   const [commentText, setCommentText] = useState("");
 
   const [loadingProducts, setLoadingProducts] = useState(true);
   const [loadingReviews, setLoadingReviews] = useState(false);
+  const [submitMessage, setSubmitMessage] = useState("");
 
   useEffect(() => {
     async function getProducts() {
@@ -36,7 +38,6 @@ function Reviews() {
 
       if (!error && data) {
         setProducts(data);
-
         if (id) {
           setSelectedProductId(Number(id));
         } else if (data.length > 0) {
@@ -85,10 +86,10 @@ function Reviews() {
       setLoadingReviews(true);
 
       const { data, error } = await supabase
-        .from("Anonymous Reviews")
+        .from("Reviews")
         .select("*")
-        .eq("prodID", selectedProductId)
-        .order("rev_id", { ascending: false });
+        .eq("prod_id", selectedProductId)
+        .order("review_id", { ascending: false });
 
       if (!error) {
         setReviews(data || []);
@@ -106,7 +107,6 @@ function Reviews() {
     return products.filter((product) => {
       const productName = product.prod_name || "";
       const brandName = product.Brands?.brand_name || "";
-
       return `${productName} ${brandName}`
         .toLowerCase()
         .includes(searchTerm.toLowerCase());
@@ -115,18 +115,15 @@ function Reviews() {
 
   const averageRating = useMemo(() => {
     const validReviews = reviews.filter((review) => review.rating !== null);
-
     if (validReviews.length === 0) return "0.0";
-
     const total = validReviews.reduce(
       (sum, review) => sum + Number(review.rating),
       0
     );
-
     return (total / validReviews.length).toFixed(1);
   }, [reviews]);
 
-  const handleAddComment = async () => {
+  const handleAddReview = async () => {
     if (!selectedProduct) return;
 
     if (userRating === 0) {
@@ -134,28 +131,41 @@ function Reviews() {
       return;
     }
 
+    if (!reviewTitle.trim()) {
+      alert("Please write a title.");
+      return;
+    }
+
     if (!commentText.trim()) {
-      alert("Please write a comment.");
+      alert("Please write a review.");
       return;
     }
 
     const newReview = {
-      prodID: selectedProduct.prod_id,
+      prod_id: selectedProduct.prod_id,
       rating: userRating,
-      review_text: commentText.trim(),
-      user: "You",
+      title: reviewTitle.trim(),
+      content: commentText.trim(),
+      date: new Date().toISOString().split("T")[0],
     };
 
     const { data, error } = await supabase
-      .from("Anonymous Reviews")
+      .from("Reviews")
       .insert([newReview])
       .select()
       .single();
 
     if (!error && data) {
-      setReviews((currentReviews) => [data, ...currentReviews]);
+      setReviews((current) => [data, ...current]);
       setUserRating(0);
+      setReviewTitle("");
       setCommentText("");
+      setSubmitMessage("Review submitted!");
+      setTimeout(() => setSubmitMessage(""), 3000);
+    } else {
+      console.error("Error submitting review:", error);
+      setSubmitMessage("Failed to submit review. Please try again.");
+      setTimeout(() => setSubmitMessage(""), 3000);
     }
   };
 
@@ -200,6 +210,7 @@ function Reviews() {
                     setSelectedProductId(product.prod_id);
                     setSearchTerm("");
                     setUserRating(0);
+                    setReviewTitle("");
                     setCommentText("");
                   }}
                 >
@@ -228,11 +239,9 @@ function Reviews() {
 
               <div className="product-info">
                 <h3>{selectedProduct.prod_name}</h3>
-
                 <p className="brand-name">
                   {selectedProduct.Brands?.brand_name || "Unknown Brand"}
                 </p>
-
                 <p className="rating-line">
                   <span className="review-stars">
                     {renderStars(Math.round(Number(averageRating)))}
@@ -264,6 +273,15 @@ function Reviews() {
                 ))}
               </div>
 
+              <input
+                type="text"
+                className="comment-box"
+                placeholder="Review title..."
+                value={reviewTitle}
+                onChange={(e) => setReviewTitle(e.target.value)}
+                style={{ marginBottom: "8px" }}
+              />
+
               <textarea
                 className="comment-box"
                 placeholder="Write your review here..."
@@ -271,8 +289,14 @@ function Reviews() {
                 onChange={(e) => setCommentText(e.target.value)}
               />
 
-              <button className="comment-btn" onClick={handleAddComment}>
-                Add Comment
+              {submitMessage && (
+                <p style={{ color: submitMessage.includes("Failed") ? "red" : "green" }}>
+                  {submitMessage}
+                </p>
+              )}
+
+              <button className="comment-btn" onClick={handleAddReview}>
+                Submit Review
               </button>
             </div>
 
@@ -284,28 +308,19 @@ function Reviews() {
               <div className="reviews-list">
                 {reviews.length > 0 ? (
                   reviews.map((review) => (
-                    <div key={review.rev_id} className="customer-review-card">
+                    <div key={review.review_id} className="customer-review-card">
                       <p className="customer-stars">
                         {review.rating !== null
                           ? renderStars(Number(review.rating))
                           : "No rating"}
                       </p>
-
-                      <h4>
-                        {Number(review.rating) >= 4
-                          ? "Loved it!"
-                          : "My thoughts"}
-                      </h4>
-
-                      <p>"{review.review_text}"</p>
-
-                      <p className="review-user">
-                        - {review.user || "Anonymous"}
-                      </p>
+                      <h4>{review.title || "Review"}</h4>
+                      <p>"{review.content}"</p>
+                      <p className="review-user">- Anonymous</p>
                     </div>
                   ))
                 ) : (
-                  <p>No reviews yet. Be the first to write one.</p>
+                  <p>No reviews yet. Be the first to write one!</p>
                 )}
               </div>
             )}
