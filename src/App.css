@@ -1,9 +1,11 @@
+/* app.css — full page and component styles for Warm Skin Tone Luxe theme with brighter olive accents. Theme variables live in index.css. */
+
 .hero-logo {
   font-size: clamp(2.6rem, 5vw, 3.8rem);
   font-weight: 900;
   letter-spacing: -0.05em;
   margin-bottom: 10px;
-  color: #2f3433;
+  color: var(--black-forest);
 }
 
 .hero-heading {
@@ -15,7 +17,7 @@
 .eyebrow {
   display: inline-block;
   margin-bottom: 14px;
-  color: #8a9691;
+  color: var(--muted);
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.12em;
@@ -23,7 +25,7 @@
 }
 
 .hero-subtext {
-  color: #6f7774;
+  color: var(--muted-deep);
   max-width: 620px;
   margin: 0 auto 24px;
   line-height: 1.7;
@@ -43,7 +45,7 @@
   width: 240px;
   height: 240px;
   border-radius: 50%;
-  background: rgba(200, 219, 225, 0.5);
+  background: rgba(127, 163, 93, 0.24);
   right: -40px;
   top: -60px;
 }
@@ -95,15 +97,15 @@
   margin: 30px auto 8px;
   padding: 22px;
   max-width: 950px;
-  background: rgba(248, 250, 250, 0.95);
-  border: 1px solid rgba(138, 150, 145, 0.22);
+  background: linear-gradient(135deg, #ffffff 0%, var(--green-surface) 54%, var(--green-surface) 100%);
+  border: 1px solid rgba(127, 163, 93, 0.24);
   border-radius: 24px;
-  box-shadow: 0 14px 34px rgba(47, 52, 51, 0.06);
+  box-shadow: 0 14px 34px rgba(50, 44, 40, 0.06);
 }
 
 .products-search {
   width: 100%;
-  border: 1px solid rgba(138, 150, 145, 0.3);
+  border: 1px solid rgba(127, 163, 93, 0.28);
   background: #ffffff;
   color: var(--text);
   border-radius: 999px;
@@ -116,7 +118,7 @@
 .products-search:focus,
 .filter-select:focus {
   border-color: var(--sage);
-  box-shadow: 0 0 0 4px rgba(200, 219, 225, 0.45);
+  box-shadow: 0 0 0 4px rgba(127, 163, 93, 0.30);
 }
 
 .filter-select-row {
@@ -127,7 +129,7 @@
 
 .filter-select {
   width: 100%;
-  border: 1px solid rgba(138, 150, 145, 0.3);
+  border: 1px solid rgba(127, 163, 93, 0.28);
   background: #ffffff;
   color: var(--text);
   border-radius: 999px;
@@ -149,11 +151,11 @@
 }
 
 .filter-search-btn {
-  background: var(--blue);
+  background: var(--celadon);
 }
 
 .filter-clear-btn {
-  background: var(--soft-gray);
+  background: var(--frosted-mint);
 }
 
 .filter-search-btn:hover,
@@ -171,20 +173,21 @@
 }
 
 .product-card {
-  background: linear-gradient(135deg, #ffffff 0%, #f8fafa 100%);
-  border: 1px solid rgba(138, 150, 145, 0.25);
+  background: var(--white-card, #ffffff);
+  border: 1px solid rgba(127, 163, 93, 0.20);
   border-radius: 24px;
   padding: 24px;
   display: flex;
   flex-direction: column;
   min-height: 460px;
-  box-shadow: 0 14px 34px rgba(47, 52, 51, 0.07);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  box-shadow: 0 14px 34px rgba(50, 44, 40, 0.07);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
 }
 
 .product-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 22px 50px rgba(47, 52, 51, 0.12);
+  border-color: var(--bright-fern);
+  box-shadow: 0 22px 50px rgba(50, 44, 40, 0.16), 0 0 0 4px rgba(127, 163, 93, 0.16);
 }
 
 .product-image {
@@ -192,7 +195,8 @@
   height: 220px;
   object-fit: contain;
   display: block;
-  background: #f7f8f8;
+  background: #ffffff;
+  border: 1px solid rgba(168, 181, 162, 0.12);
   border-radius: 20px;
   padding: 18px;
   margin-bottom: 18px;
@@ -233,7 +237,7 @@
 }
 
 .product-tag {
-  background: #e7e7e7;
+  background: var(--celadon);
   padding: 7px 12px;
   border-radius: 999px;
   font-size: 0.85rem;
@@ -306,26 +310,26 @@
 .review-search {
   width: 100%;
   max-width: 420px;
-  border: 1px solid rgba(138, 150, 145, 0.35);
-  background: #f7f8f8;
-  color: #2f3433;
+  border: 1px solid rgba(168, 181, 162, 0.34);
+  background: var(--soft-sand);
+  color: var(--black-forest);
   border-radius: 999px;
   padding: 15px 20px;
   font-size: 1rem;
   outline: none;
   text-align: left;
-  box-shadow: 0 8px 22px rgba(47, 52, 51, 0.05);
+  box-shadow: 0 8px 22px rgba(50, 44, 40, 0.05);
   transition: 0.25s ease;
 }
 
 .review-search::placeholder {
-  color: #8a9691;
+  color: var(--muted);
 }
 
 .review-search:focus {
   background: #ffffff;
-  border-color: #8a9691;
-  box-shadow: 0 0 0 4px rgba(200, 219, 225, 0.5);
+  border-color: var(--muted);
+  box-shadow: 0 0 0 4px rgba(127, 163, 93, 0.24);
 }
 
 .search-results {
@@ -337,20 +341,20 @@
 }
 
 .search-result-item {
-  border: 1px solid rgba(138, 150, 145, 0.25);
+  border: 1px solid rgba(127, 163, 93, 0.20);
   background: #ffffff;
   border-radius: 16px;
   padding: 13px 16px;
   cursor: pointer;
   text-align: left;
   font-weight: 600;
-  color: #2f3433;
+  color: var(--black-forest);
   transition: 0.2s ease;
 }
 
 .search-result-item:hover,
 .active-product {
-  background: #c8dbe1;
+  background: var(--seafoam);
 }
 
 .product-review-section {
@@ -361,8 +365,8 @@
   max-width: 780px;
   margin: 28px auto;
   padding: 24px;
-  background: #f7f8f8;
-  border: 1px solid rgba(138, 150, 145, 0.25);
+  background: var(--soft-sand);
+  border: 1px solid rgba(127, 163, 93, 0.20);
   border-radius: 24px;
 }
 
@@ -460,7 +464,7 @@
   border: none;
   background: transparent;
   font-size: 2rem;
-  color: #dddddd;
+  color: var(--border-strong);
   cursor: pointer;
   line-height: 1;
   padding: 4px;
@@ -475,7 +479,7 @@
   width: 100%;
   max-width: 620px;
   min-height: 120px;
-  border: 1px solid #dddddd;
+  border: 1px solid var(--border-strong);
   border-radius: 18px;
   padding: 16px;
   display: block;
@@ -493,7 +497,7 @@
 }
 
 .customer-review-card {
-  border: 1px solid rgba(138, 150, 145, 0.25);
+  border: 1px solid rgba(127, 163, 93, 0.20);
   border-radius: 20px;
   padding: 22px;
   background: white;
@@ -520,8 +524,8 @@
 /* Product Detail Page */
 
 .product-detail-card {
-  background: linear-gradient(135deg, #ffffff 0%, #f7f8f8 100%);
-  border: 1px solid rgba(138, 150, 145, 0.24);
+  background: var(--white-card, #ffffff);
+  border: 1px solid rgba(127, 163, 93, 0.20);
 }
 
 .product-detail-layout {
@@ -535,24 +539,23 @@
 }
 
 .product-detail-visual {
-  background: linear-gradient(135deg, #c8dbe1, #e7e7e7);
+  background: linear-gradient(135deg, var(--earth-green-soft), var(--celadon));
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 40px;
 }
 
-.product-image,
 .product-detail-image {
   width: 210px;
   height: 210px;
-  background: rgba(255, 255, 255, 0.65);
+  background: rgba(255, 255, 255, 0.96);
   border-radius: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 5rem;
-  box-shadow: 0 18px 35px rgba(47, 52, 51, 0.1);
+  box-shadow: 0 18px 35px rgba(50, 44, 40, 0.10);
 }
 
 .product-detail-main-image {
@@ -563,10 +566,10 @@
   display: block;
   margin: 12px auto 28px;
   background: #ffffff;
-  border: 1px solid rgba(138, 150, 145, 0.18);
+  border: 1px solid rgba(127, 163, 93, 0.18);
   border-radius: 28px;
   padding: 22px;
-  box-shadow: 0 16px 36px rgba(47, 52, 51, 0.08);
+  box-shadow: 0 16px 36px rgba(50, 44, 40, 0.10);
 }
 
 .product-detail-content {
@@ -583,8 +586,8 @@
   margin-bottom: 14px;
   padding: 8px 14px;
   border-radius: 999px;
-  background: #e7e7e7;
-  color: #8a9691;
+  background: var(--celadon);
+  color: var(--muted);
   font-size: 0.78rem;
   font-weight: 800;
   letter-spacing: 0.08em;
@@ -592,24 +595,24 @@
 }
 
 .product-detail-name {
-  color: #2f3433;
+  color: var(--black-forest);
 }
 
 .product-detail-brand {
-  color: #8a9691;
+  color: var(--muted);
   font-weight: 800;
   margin: 8px 0 18px;
 }
 
 .product-detail-description {
-  color: #6f7774;
+  color: var(--muted-deep);
   line-height: 1.7;
   margin-bottom: 28px;
 }
 
 .product-detail-section {
-  background: #f7f8f8;
-  border: 1px solid rgba(138, 150, 145, 0.22);
+  background: var(--soft-sand);
+  border: 1px solid rgba(127, 163, 93, 0.24);
   border-radius: 20px;
   padding: 18px;
   margin-bottom: 24px;
@@ -617,7 +620,7 @@
 
 .product-detail-section h3 {
   margin-bottom: 8px;
-  color: #2f3433;
+  color: var(--black-forest);
 }
 
 .product-detail-buttons {
@@ -629,16 +632,16 @@
 }
 
 .product-detail-buttons:first-of-type .product-btn {
-  background: #8a9691;
+  background: var(--muted);
   color: white;
 }
 
 .product-detail-buttons:first-of-type .product-btn:hover {
-  background: #6f7b76;
+  background: var(--earth-green-dark);
 }
 
 .product-detail-buttons:last-of-type .product-btn {
-  background: #e7e7e7;
+  background: var(--celadon);
 }
 
 /* Skin Type Cards */
@@ -654,10 +657,10 @@
 .skin-type-mini-card {
   min-width: 105px;
   padding: 12px 16px;
-  background: var(--white);
+  background: #ffffff;
   border: 1px solid var(--border);
   border-radius: 16px;
-  box-shadow: 0 10px 24px rgba(47, 52, 51, 0.08);
+  box-shadow: 0 10px 24px rgba(50, 44, 40, 0.10);
   color: var(--text);
   font-size: 0.9rem;
   font-weight: 700;
@@ -675,10 +678,10 @@
 
 .skin-concern-card {
   min-height: 115px;
-  background: var(--white);
+  background: #ffffff;
   border: 1px solid var(--border);
   border-radius: 20px;
-  box-shadow: 0 14px 32px rgba(47, 52, 51, 0.09);
+  box-shadow: 0 14px 32px rgba(50, 44, 40, 0.11);
   padding: 18px;
   display: flex;
   flex-direction: column;
@@ -692,7 +695,7 @@
   width: 42px;
   height: 42px;
   border-radius: 15px;
-  background: var(--blue);
+  background: var(--celadon);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -709,14 +712,15 @@
 
 .detail-highlight-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(135px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(135px, 165px));
+  justify-content: center;
   gap: 18px;
   margin-top: 16px;
 }
 
 .detail-highlight-card {
   aspect-ratio: 1 / 1;
-  background: linear-gradient(145deg, var(--white), var(--soft-gray));
+  background: #ffffff;
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow);
@@ -732,14 +736,14 @@
 
 .detail-highlight-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 22px 50px rgba(47, 52, 51, 0.14);
+  box-shadow: 0 22px 50px rgba(50, 44, 40, 0.18);
 }
 
 .detail-highlight-icon {
   width: 52px;
   height: 52px;
   border-radius: 18px;
-  background: var(--blue);
+  background: var(--celadon);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -753,32 +757,285 @@
   line-height: 1.35;
 }
 
-/* Ingredient Dropdown */
+/* Smooth Ingredient Research Cards */
 
-.ingredient-dropdown {
-  border: 1px solid rgba(138, 150, 145, 0.24);
-  border-radius: 16px;
-  background: #ffffff;
-  padding: 12px 14px;
-  margin-top: 10px;
+.ingredient-research-section {
+  background: linear-gradient(135deg, var(--soft-sand) 0%, var(--white) 100%);
+  overflow: hidden;
 }
 
-.ingredient-dropdown summary {
-  cursor: pointer;
+.ingredient-section-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.ingredient-section-header h3 {
+  margin: 0;
+}
+
+.ingredient-section-header > span {
+  flex-shrink: 0;
+  border-radius: 999px;
+  background: rgba(127, 163, 93, 0.28);
+  color: var(--text);
+  padding: 8px 13px;
+  font-size: 0.82rem;
   font-weight: 800;
-  color: #2f3433;
 }
 
-.ingredient-dropdown-content {
-  margin-top: 12px;
-  color: #6f7774;
-  line-height: 1.6;
+.ingredient-eyebrow {
+  margin-bottom: 8px;
 }
 
-.ingredients-list {
+.ingredients-list,
+.smooth-ingredients-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.ingredient-research-card {
+  border: 1px solid rgba(127, 163, 93, 0.24);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 12px 28px rgba(50, 44, 40, 0.06);
+  overflow: hidden;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.ingredient-research-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 40px rgba(50, 44, 40, 0.10);
+  border-color: rgba(142, 154, 131, 0.44);
+}
+
+.ingredient-research-card.open {
+  border-color: rgba(142, 154, 131, 0.52);
+  box-shadow: 0 20px 46px rgba(50, 44, 40, 0.14);
+}
+
+.ingredient-card-header {
+  width: 100%;
+  border: none;
+  background: transparent;
+  color: var(--text);
+  padding: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  text-align: left;
+}
+
+.ingredient-card-title-block {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+
+.ingredient-number {
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+  border-radius: 14px;
+  background: var(--celadon);
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  font-size: 0.88rem;
+}
+
+.ingredient-card-title-block h4 {
+  margin: 0 0 8px;
+  color: var(--text);
+  font-size: 1rem;
+  line-height: 1.25;
+}
+
+.ingredient-card-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.ingredient-card-badges span {
+  border-radius: 999px;
+  background: rgba(241, 236, 228, 0.75);
+  color: var(--muted);
+  padding: 5px 9px;
+  font-size: 0.74rem;
+  font-weight: 800;
+}
+
+.ingredient-toggle-icon {
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--soft-sand);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--sage);
+  font-size: 1.35rem;
+  font-weight: 800;
+  transition: transform 0.25s ease, background 0.25s ease;
+}
+
+.ingredient-research-card.open .ingredient-toggle-icon {
+  transform: rotate(180deg);
+  background: var(--celadon);
+}
+
+.ingredient-card-body-wrapper {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.35s ease;
+}
+
+.ingredient-research-card.open .ingredient-card-body-wrapper {
+  grid-template-rows: 1fr;
+}
+
+.ingredient-card-body {
+  overflow: hidden;
+  padding: 0 18px;
+}
+
+.ingredient-research-card.open .ingredient-card-body {
+  padding-bottom: 18px;
+}
+
+.ingredient-summary-text {
+  color: var(--muted);
+  line-height: 1.7;
+  margin: 0 0 16px;
+  padding-top: 2px;
+}
+
+.ingredient-insight-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.ingredient-insight-card {
+  background: var(--soft-sand);
+  border: 1px solid rgba(127, 163, 93, 0.18);
+  border-radius: 18px;
+  padding: 14px;
+}
+
+.ingredient-insight-card span {
+  display: block;
+  color: var(--sage);
+  font-size: 0.74rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 8px;
+}
+
+.ingredient-insight-card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+.research-links-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 4px 0 12px;
+}
+
+.research-links-header h5 {
+  margin: 0;
+  color: var(--text);
+  font-size: 1rem;
+}
+
+.research-links-header span {
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.research-link-list,
+.smooth-research-list {
   display: flex;
   flex-direction: column;
   gap: 10px;
+}
+
+.research-link-card,
+.smooth-research-card {
+  text-decoration: none;
+  color: inherit;
+  border: 1px solid rgba(168, 181, 162, 0.20);
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+}
+
+.smooth-research-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(142, 154, 131, 0.48);
+  box-shadow: 0 14px 28px rgba(50, 44, 40, 0.10);
+}
+
+.research-category-line {
+  color: var(--sage);
+  font-size: 0.82rem;
+  margin: 0 0 6px;
+}
+
+.smooth-research-card h6 {
+  margin: 0;
+  color: var(--text);
+  font-size: 0.93rem;
+  line-height: 1.4;
+}
+
+.muted-text {
+  color: var(--muted);
+  font-size: 0.82rem;
+  line-height: 1.5;
+  margin: 6px 0 0;
+}
+
+.research-arrow {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: rgba(127, 163, 93, 0.30);
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+}
+
+.no-research-text {
+  color: var(--muted);
+  margin: 0;
 }
 
 /* Responsive */
@@ -857,7 +1114,7 @@
   gap: 8px;
   padding: 8px 10px;
   border-radius: 12px;
-  background: rgba(200, 219, 225, 0.35);
+  background: rgba(241, 236, 228, 0.70);
   color: var(--text);
   font-size: 0.9rem;
 }
@@ -878,7 +1135,7 @@
 .product-price.unavailable {
   justify-content: flex-start;
   color: var(--muted);
-  background: rgba(231, 231, 231, 0.45);
+  background: rgba(241, 236, 228, 0.55);
 }
 
 
@@ -915,7 +1172,7 @@
   padding: 10px 16px;
   border: 1px solid var(--border);
   border-radius: 999px;
-  background: var(--white);
+  background: #ffffff;
   color: var(--text);
   font-weight: 700;
   cursor: pointer;
@@ -924,4 +1181,863 @@
 .logout-btn:hover {
   transform: translateY(-1px);
   box-shadow: var(--shadow);
+}
+
+@media (max-width: 760px) {
+  .ingredient-section-header {
+    flex-direction: column;
+  }
+
+  .ingredient-insight-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ingredient-card-header {
+    align-items: flex-start;
+  }
+
+  .ingredient-card-title-block {
+    align-items: flex-start;
+  }
+}
+
+
+/* Green interactive polish */
+.product-card:hover,
+.customer-review-card:hover,
+.product-review-section:hover,
+.product-detail-section:hover,
+.detail-highlight-card:hover,
+.skin-concern-card:hover,
+.skin-type-mini-card:hover,
+.ingredient-research-card:hover,
+.ingredient-insight-card:hover,
+.smooth-research-card:hover,
+.search-result-item:hover {
+  border-color: var(--bright-fern);
+}
+
+.product-card:hover .product-brand,
+.product-card:hover h3,
+.product-tag:hover,
+.skin-concern-card:hover p,
+.skin-type-mini-card:hover,
+.detail-highlight-card:hover p,
+.ingredient-insight-card:hover span,
+.research-link-card:hover h6,
+.smooth-research-card:hover h6 {
+  color: var(--dark-emerald);
+}
+
+.product-tag,
+.ingredient-card-badges span,
+.product-price,
+.ingredient-section-header > span {
+  transition: color 0.25s ease, background 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+}
+
+.product-tag:hover,
+.ingredient-card-badges span:hover {
+  background: var(--sea-green);
+  color: var(--white);
+  transform: translateY(-1px);
+}
+
+.detail-highlight-icon,
+.skin-concern-icon,
+.ingredient-number,
+.research-arrow {
+  background: var(--frosted-mint);
+  color: var(--pine-teal);
+  border: 1px solid rgba(168, 181, 162, 0.16);
+  transition: background 0.25s ease, color 0.25s ease, transform 0.25s ease;
+}
+
+.detail-highlight-card:hover .detail-highlight-icon,
+.skin-concern-card:hover .skin-concern-icon,
+.ingredient-research-card:hover .ingredient-number,
+.smooth-research-card:hover .research-arrow {
+  background: var(--sea-green);
+  color: var(--white);
+  transform: scale(1.04);
+}
+
+.filter-search-btn:hover,
+.filter-clear-btn:hover,
+.product-detail-buttons .product-btn:hover,
+.logout-btn:hover,
+.auth-switch-btn:hover {
+  background: var(--pine-teal);
+  border-color: var(--pine-teal);
+  color: var(--white);
+}
+
+.review-search:hover,
+.products-search:hover,
+.filter-select:hover,
+.comment-box:hover,
+.auth-form input:hover {
+  border-color: var(--bright-fern);
+}
+
+
+/* Forest + wood interaction polish */
+.product-card:hover .product-brand,
+.product-card:hover .product-description,
+.product-card:hover .product-size {
+  color: var(--dark-spruce);
+}
+
+.product-tag:hover,
+.skin-type-mini-card:hover,
+.skin-concern-card:hover,
+.detail-highlight-card:hover,
+.ingredient-insight-card:hover,
+.product-price:hover {
+  border-color: var(--bright-fern);
+  color: var(--dark-spruce);
+  box-shadow: 0 16px 34px rgba(50, 44, 40, 0.14);
+}
+
+.product-tag:hover,
+.ingredient-card-badges span:hover {
+  background: rgba(168, 181, 162, 0.45);
+  color: var(--green);
+}
+
+.skin-concern-card:hover .skin-concern-icon,
+.detail-highlight-card:hover .detail-highlight-icon,
+.ingredient-research-card:hover .ingredient-number {
+  background: linear-gradient(135deg, var(--dry-sage), var(--bright-fern));
+  color: var(--dark-spruce);
+}
+
+.ingredient-insight-card:hover span,
+.research-category-line:hover,
+.review-user:hover,
+.brand-name:hover {
+  color: var(--green-3) !important;
+}
+
+.smooth-research-card:hover .research-arrow,
+.research-link-card:hover .research-arrow {
+  background: var(--bright-fern);
+  color: var(--dark-spruce);
+}
+
+.filter-select:hover,
+.products-search:hover,
+.review-search:hover,
+.comment-box:hover,
+.auth-form input:hover {
+  border-color: var(--bright-fern);
+}
+
+
+/* Rainforest interaction polish */
+.product-card,
+.detail-highlight-card,
+.skin-type-mini-card,
+.skin-concern-card,
+.ingredient-research-card,
+.customer-review-card,
+.product-detail-section,
+.product-price,
+.search-result-item,
+.smooth-research-card {
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease,
+    color 0.25s ease,
+    background 0.25s ease;
+}
+
+.product-card:hover {
+  border-color: var(--fern);
+  box-shadow: 0 24px 58px rgba(50, 44, 40, 0.22), 0 0 0 4px rgba(168, 181, 162, 0.20);
+}
+
+.detail-highlight-card:hover,
+.skin-concern-card:hover,
+.skin-type-mini-card:hover {
+  border-color: var(--hunter-green);
+  background: linear-gradient(145deg, #ffffff, var(--green-surface));
+  color: var(--hunter-green);
+}
+
+.detail-highlight-card:hover p,
+.skin-concern-card:hover p,
+.skin-type-mini-card:hover {
+  color: var(--hunter-green);
+}
+
+.detail-highlight-card:hover .detail-highlight-icon,
+.skin-concern-card:hover .skin-concern-icon {
+  background: var(--dry-sage);
+  color: var(--pine-teal);
+}
+
+.product-tag:hover,
+.ingredient-card-badges span:hover,
+.risk-pill:hover,
+.benefit-pill:hover,
+.risk-card:hover,
+.benefit-card:hover {
+  border-color: var(--fern);
+  color: var(--hunter-green);
+  background: rgba(127, 163, 93, 0.24);
+}
+
+.ingredient-research-card:hover,
+.customer-review-card:hover,
+.product-detail-section:hover {
+  border-color: rgba(142, 154, 131, 0.44);
+  box-shadow: 0 18px 42px rgba(50, 44, 40, 0.12);
+}
+
+.research-link-card:hover,
+.smooth-research-card:hover {
+  color: var(--hunter-green);
+}
+
+.filter-search-btn:hover,
+.filter-clear-btn:hover,
+.logout-btn:hover,
+.auth-switch-btn:hover {
+  border-color: var(--hunter-green);
+  box-shadow: 0 14px 30px rgba(50, 44, 40, 0.18);
+}
+
+
+/* Recommended skin-luxe finishing touches */
+.product-card,
+.customer-review-card,
+.ingredient-research-card,
+.detail-highlight-card,
+.skin-type-mini-card,
+.skin-concern-card,
+.ingredient-insight-card,
+.research-link-card,
+.smooth-research-card,
+.product-review-section,
+.product-detail-section {
+  background: var(--white);
+}
+
+.product-card:hover,
+.detail-highlight-card:hover,
+.skin-type-mini-card:hover,
+.skin-concern-card:hover,
+.ingredient-insight-card:hover,
+.ingredient-research-card:hover,
+.smooth-research-card:hover,
+.research-link-card:hover {
+  border-color: var(--sage-accent);
+  box-shadow: var(--shadow-hover);
+}
+
+.product-image,
+.product-detail-main-image,
+.product-image-box {
+  background: var(--white);
+}
+
+.product-tag:hover,
+.ingredient-card-badges span:hover,
+.product-price:hover {
+  color: var(--espresso);
+  border-color: var(--sage-accent);
+  background: rgba(127, 163, 93, 0.18);
+}
+
+.review-stars,
+.selected-star,
+.customer-stars,
+.brand-name,
+.product-brand,
+.research-category-line {
+  color: var(--olive-smoke);
+}
+
+
+/* Tropical reference-theme overrides */
+.hero-card {
+  min-height: auto;
+  padding-top: 56px;
+  padding-bottom: 44px;
+  background:
+    radial-gradient(circle at 8% 16%, rgba(208, 219, 228, 0.62), transparent 30%),
+    radial-gradient(circle at 92% 8%, rgba(174, 164, 94, 0.20), transparent 28%),
+    linear-gradient(135deg, rgba(255,255,255,0.97), rgba(244,246,247,0.92));
+}
+
+.hero-card::before {
+  background: rgba(208, 219, 228, 0.58);
+}
+
+.hero-top-row {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.hero-nav-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(110px, 1fr));
+  gap: 12px;
+  margin: 30px auto 0;
+  max-width: 760px;
+}
+
+.hero-nav-grid .page-btn {
+  width: 100%;
+  justify-content: center;
+  text-align: center;
+}
+
+.hero-stats {
+  margin-top: 30px;
+}
+
+.logout-btn {
+  align-self: auto;
+  background: rgba(255, 255, 255, 0.86);
+  border: 1px solid rgba(174, 164, 94, 0.55);
+  color: var(--dried-palm-leaf);
+  box-shadow: 0 10px 24px rgba(61, 59, 22, 0.08);
+}
+
+.logout-btn:hover {
+  background: var(--dried-palm-leaf);
+  color: var(--white);
+  border-color: var(--dried-palm-leaf);
+  transform: translateY(-2px);
+}
+
+.products-page-card {
+  position: relative;
+  overflow: hidden;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,0.95), rgba(244,246,247,0.90)),
+    radial-gradient(circle at 14% 18%, rgba(208,219,228,0.70), transparent 32%),
+    radial-gradient(circle at 88% 18%, rgba(194,188,159,0.42), transparent 31%),
+    radial-gradient(circle at 74% 82%, rgba(174,164,94,0.22), transparent 34%);
+}
+
+.products-page-card::before {
+  content: "";
+  position: absolute;
+  inset: -35%;
+  pointer-events: none;
+  background:
+    linear-gradient(115deg, transparent 0 46%, rgba(117,108,55,0.08) 47% 48%, transparent 49% 100%),
+    linear-gradient(65deg, transparent 0 55%, rgba(174,164,94,0.08) 56% 57%, transparent 58% 100%);
+  background-size: 380px 380px, 520px 520px;
+  animation: productTropicalSweep 24s linear infinite;
+}
+
+.products-page-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes productTropicalSweep {
+  from { transform: translate3d(-40px, -30px, 0); }
+  to { transform: translate3d(120px, 90px, 0); }
+}
+
+.products-filter-card {
+  background: rgba(255, 255, 255, 0.86);
+  border-color: rgba(174, 164, 94, 0.42);
+  box-shadow: 0 16px 36px rgba(61, 59, 22, 0.08);
+}
+
+.product-card {
+  background: #ffffff;
+  border: 2px solid rgba(174, 164, 94, 0.42);
+  border-radius: 28px;
+  box-shadow: 0 16px 38px rgba(61, 59, 22, 0.09);
+}
+
+.product-card:hover {
+  border-color: var(--citrus-grove);
+  box-shadow: var(--tropical-glow);
+}
+
+.product-card:hover .product-image {
+  border-color: var(--citrus-grove);
+  box-shadow: 0 12px 28px rgba(174, 164, 94, 0.18);
+}
+
+.product-image {
+  background: #ffffff;
+  border: 2px solid rgba(174, 164, 94, 0.36);
+  border-radius: 24px;
+}
+
+.product-brand,
+.review-stars,
+.selected-star,
+.customer-stars,
+.research-category-line,
+.ingredient-insight-card span {
+  color: var(--tropical-olive);
+}
+
+.product-tag,
+.ingredient-card-badges span {
+  border: 1px solid rgba(174, 164, 94, 0.36);
+  background: rgba(244, 246, 247, 0.92);
+}
+
+.product-tag:hover,
+.ingredient-card-badges span:hover,
+.skin-type-mini-card:hover,
+.skin-concern-card:hover,
+.detail-highlight-card:hover,
+.ingredient-insight-card:hover {
+  color: var(--dried-palm-leaf);
+  border-color: var(--citrus-grove);
+  box-shadow: 0 14px 30px rgba(174, 164, 94, 0.18);
+}
+
+.product-detail-card {
+  background:
+    linear-gradient(135deg, rgba(255,255,255,0.96), rgba(244,246,247,0.92)),
+    radial-gradient(circle at 12% 18%, rgba(208,219,228,0.46), transparent 30%);
+  border: 1px solid rgba(174, 164, 94, 0.48);
+}
+
+.product-detail-main-image,
+.product-detail-image,
+.product-image-box {
+  background: #ffffff;
+  border: 2px solid var(--citrus-grove);
+  box-shadow: 0 16px 36px rgba(117,108,55,0.16), 0 0 0 5px rgba(208,219,228,0.30);
+}
+
+.product-detail-section {
+  background: rgba(255,255,255,0.88);
+  border-color: rgba(174, 164, 94, 0.42);
+}
+
+.product-detail-section:hover {
+  border-color: var(--citrus-grove);
+  box-shadow: 0 16px 36px rgba(174,164,94,0.16);
+}
+
+.ingredient-dropdown,
+.ingredients-dropdown,
+.product-ingredients-dropdown {
+  border: 1px solid rgba(174, 164, 94, 0.46);
+  border-radius: 22px;
+  background: rgba(255,255,255,0.92);
+  overflow: hidden;
+  box-shadow: 0 12px 28px rgba(61,59,22,0.06);
+}
+
+.ingredient-dropdown summary,
+.ingredients-dropdown summary,
+.product-ingredients-dropdown summary {
+  cursor: pointer;
+  padding: 16px 18px;
+  font-weight: 900;
+  color: var(--dried-palm-leaf);
+  list-style: none;
+}
+
+.ingredient-dropdown summary::-webkit-details-marker,
+.ingredients-dropdown summary::-webkit-details-marker,
+.product-ingredients-dropdown summary::-webkit-details-marker {
+  display: none;
+}
+
+.ingredient-dropdown summary::after,
+.ingredients-dropdown summary::after,
+.product-ingredients-dropdown summary::after {
+  content: "+";
+  float: right;
+  color: var(--tropical-olive);
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.ingredient-dropdown[open] summary::after,
+.ingredients-dropdown[open] summary::after,
+.product-ingredients-dropdown[open] summary::after {
+  content: "−";
+}
+
+.ingredient-dropdown-content,
+.ingredients-dropdown-content,
+.product-ingredients-dropdown-content {
+  padding: 0 18px 18px;
+  color: var(--muted);
+  line-height: 1.65;
+  border-top: 1px solid rgba(174, 164, 94, 0.30);
+}
+
+@media (max-width: 850px) {
+  .hero-nav-grid {
+    grid-template-columns: repeat(2, minmax(120px, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .hero-nav-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-card {
+    padding-top: 32px;
+    padding-bottom: 32px;
+  }
+
+  .hero-top-row {
+    justify-content: center;
+  }
+}
+
+/* ==========================================================
+   Tropical spa page-specific backgrounds and interactions
+   ========================================================== */
+
+/* HOME — sunlight through leaves, not a travel-poster palm background */
+.hero-card {
+  position: relative;
+  isolation: isolate;
+  min-height: auto;
+  padding-top: 42px;
+  padding-bottom: 42px;
+  background:
+    radial-gradient(circle at 8% 16%, rgba(208, 219, 228, 0.72), transparent 30%),
+    radial-gradient(circle at 88% 18%, rgba(194, 188, 159, 0.26), transparent 28%),
+    linear-gradient(135deg, rgba(255,255,255,0.98), rgba(244,246,247,0.94));
+  overflow: hidden;
+}
+
+.hero-card::before {
+  content: "";
+  position: absolute;
+  inset: -18%;
+  z-index: -2;
+  pointer-events: none;
+  background:
+    linear-gradient(110deg, transparent 0 38%, rgba(61,59,22,0.10) 39% 40%, transparent 41% 100%),
+    linear-gradient(68deg, transparent 0 56%, rgba(117,108,55,0.08) 57% 58%, transparent 59% 100%),
+    radial-gradient(ellipse at 20% 14%, rgba(117,108,55,0.08), transparent 28%);
+  background-size: 360px 360px, 440px 440px, 700px 700px;
+  animation: leafShadowSway 10s ease-in-out infinite alternate;
+}
+
+.hero-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.46) 42%, transparent 58%);
+  animation: serumShimmer 9s ease-in-out infinite;
+}
+
+.hero-top-row {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.hero-nav-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(110px, 1fr));
+  gap: 12px;
+  margin: 30px auto 0;
+  max-width: 780px;
+}
+
+.hero-nav-grid .page-btn {
+  width: 100%;
+  justify-content: center;
+  text-align: center;
+}
+
+.logout-btn {
+  align-self: auto;
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(174, 164, 94, 0.55);
+  color: var(--dried-palm-leaf);
+  box-shadow: 0 10px 24px rgba(61, 59, 22, 0.08);
+}
+
+.logout-btn:hover {
+  background: var(--dried-palm-leaf);
+  color: var(--white);
+  border-color: var(--dried-palm-leaf);
+  transform: translateY(-2px);
+}
+
+/* PRODUCTS — soft water ripple inside the large product shell */
+.products-page-card {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 12% 20%, rgba(208,219,228,0.88), transparent 30%),
+    radial-gradient(circle at 88% 14%, rgba(194,188,159,0.36), transparent 28%),
+    linear-gradient(135deg, rgba(255,255,255,0.96), rgba(244,246,247,0.92));
+  border-color: rgba(174, 164, 94, 0.46);
+}
+
+.products-page-card::before {
+  content: "";
+  position: absolute;
+  inset: -45%;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse at 20% 20%, rgba(255,255,255,0.46), transparent 18%),
+    repeating-radial-gradient(ellipse at 40% 50%, rgba(208,219,228,0.32) 0 2px, transparent 3px 22px),
+    linear-gradient(115deg, transparent 0 44%, rgba(174,164,94,0.07) 45% 46%, transparent 47% 100%);
+  background-size: 520px 380px, 460px 300px, 520px 520px;
+  animation: softWaterRipple 24s linear infinite;
+}
+
+.products-page-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.32) 46%, transparent 62%);
+  animation: serumShimmer 12s ease-in-out infinite;
+}
+
+.products-page-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.products-filter-card {
+  background: rgba(255, 255, 255, 0.88);
+  border-color: rgba(174, 164, 94, 0.42);
+  box-shadow: 0 16px 36px rgba(61, 59, 22, 0.08);
+  backdrop-filter: blur(14px);
+}
+
+.product-card {
+  background: #ffffff;
+  border: 2px solid rgba(174, 164, 94, 0.48);
+  border-radius: 30px;
+  box-shadow: 0 16px 38px rgba(61, 59, 22, 0.09);
+}
+
+.product-card:hover {
+  border-color: var(--citrus-grove);
+  box-shadow: 0 0 0 4px rgba(208, 219, 228, 0.48), 0 24px 54px rgba(117, 108, 55, 0.18);
+}
+
+.product-image {
+  background: #ffffff;
+  border: 2px solid rgba(174, 164, 94, 0.44);
+  border-radius: 24px;
+}
+
+.product-card:hover .product-image {
+  border-color: var(--citrus-grove);
+  box-shadow: 0 12px 28px rgba(174, 164, 94, 0.18);
+}
+
+.product-tag:hover,
+.ingredient-card-badges span:hover,
+.skin-type-mini-card:hover,
+.skin-concern-card:hover,
+.detail-highlight-card:hover,
+.ingredient-insight-card:hover {
+  color: var(--dried-palm-leaf);
+  border-color: var(--citrus-grove);
+  box-shadow: 0 14px 30px rgba(174, 164, 94, 0.18);
+  transform: translateY(-2px);
+}
+
+/* PRODUCT DETAIL — glass dew drops / spa serum texture */
+.product-detail-card {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 15% 18%, rgba(208,219,228,0.60), transparent 28%),
+    radial-gradient(circle at 86% 16%, rgba(255,255,255,0.82), transparent 24%),
+    linear-gradient(135deg, rgba(255,255,255,0.97), rgba(244,246,247,0.92));
+  border: 1px solid rgba(174, 164, 94, 0.48);
+}
+
+.product-detail-card::before {
+  content: "";
+  position: absolute;
+  inset: -20%;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 18% 22%, rgba(255,255,255,0.62) 0 5px, transparent 7px),
+    radial-gradient(circle at 72% 16%, rgba(208,219,228,0.42) 0 4px, transparent 6px),
+    radial-gradient(circle at 42% 78%, rgba(255,255,255,0.48) 0 5px, transparent 8px);
+  background-size: 150px 170px, 210px 190px, 250px 260px;
+  animation: spaDewFloat 20s linear infinite;
+  opacity: 0.62;
+}
+
+.product-detail-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.product-detail-main-image,
+.product-detail-image,
+.product-image-box {
+  background: #ffffff;
+  border: 2px solid var(--citrus-grove);
+  box-shadow: 0 16px 36px rgba(117,108,55,0.16), 0 0 0 5px rgba(208,219,228,0.32);
+}
+
+.product-detail-main-image:hover,
+.product-detail-image:hover,
+.product-image-box:hover {
+  border-color: var(--tropical-olive);
+  box-shadow: 0 20px 46px rgba(117,108,55,0.20), 0 0 0 6px rgba(208,219,228,0.42);
+}
+
+/* Use this class if you replace the visible ingredient list with a <details> dropdown */
+.product-ingredients-dropdown,
+.ingredient-dropdown,
+.ingredients-dropdown {
+  border: 1px solid rgba(174, 164, 94, 0.46);
+  border-radius: 22px;
+  background: rgba(255,255,255,0.92);
+  overflow: hidden;
+  box-shadow: 0 12px 28px rgba(61,59,22,0.06);
+}
+
+.product-ingredients-dropdown summary,
+.ingredient-dropdown summary,
+.ingredients-dropdown summary {
+  cursor: pointer;
+  padding: 16px 18px;
+  font-weight: 900;
+  color: var(--dried-palm-leaf);
+  list-style: none;
+}
+
+.product-ingredients-dropdown summary::-webkit-details-marker,
+.ingredient-dropdown summary::-webkit-details-marker,
+.ingredients-dropdown summary::-webkit-details-marker {
+  display: none;
+}
+
+.product-ingredients-dropdown summary::after,
+.ingredient-dropdown summary::after,
+.ingredients-dropdown summary::after {
+  content: "+";
+  float: right;
+  color: var(--tropical-olive);
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.product-ingredients-dropdown[open] summary::after,
+.ingredient-dropdown[open] summary::after,
+.ingredients-dropdown[open] summary::after {
+  content: "−";
+}
+
+.product-ingredients-dropdown-content,
+.ingredient-dropdown-content,
+.ingredients-dropdown-content {
+  padding: 0 18px 18px;
+  color: var(--muted);
+  line-height: 1.65;
+  border-top: 1px solid rgba(174, 164, 94, 0.30);
+}
+
+@media (max-width: 850px) {
+  .hero-nav-grid {
+    grid-template-columns: repeat(2, minmax(120px, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .hero-nav-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-card {
+    padding-top: 32px;
+    padding-bottom: 32px;
+  }
+
+  .hero-top-row {
+    justify-content: center;
+  }
+}
+
+
+/* ==========================================================
+   Final background adjustment
+   Keep animation ONLY inside the Products page card.
+   ========================================================== */
+.hero-card::before,
+.hero-card::after,
+.product-detail-card::before,
+.product-detail-card::after {
+  content: none !important;
+  display: none !important;
+  animation: none !important;
+}
+
+.hero-card,
+.product-detail-card,
+.review-page-card,
+.quiz-container,
+.page-card {
+  background: rgba(255, 255, 255, 0.96) !important;
+}
+
+.products-page-card {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 12% 20%, rgba(208,219,228,0.88), transparent 30%),
+    radial-gradient(circle at 88% 14%, rgba(194,188,159,0.36), transparent 28%),
+    linear-gradient(135deg, rgba(255,255,255,0.96), rgba(244,246,247,0.92)) !important;
+  border-color: rgba(174, 164, 94, 0.46);
+}
+
+.products-page-card::before {
+  content: "" !important;
+  display: block !important;
+  position: absolute;
+  inset: -45%;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse at 20% 20%, rgba(255,255,255,0.46), transparent 18%),
+    repeating-radial-gradient(ellipse at 40% 50%, rgba(208,219,228,0.32) 0 2px, transparent 3px 22px),
+    linear-gradient(115deg, transparent 0 44%, rgba(174,164,94,0.07) 45% 46%, transparent 47% 100%);
+  background-size: 520px 380px, 460px 300px, 520px 520px;
+  animation: softWaterRipple 24s linear infinite !important;
+}
+
+.products-page-card::after {
+  content: "" !important;
+  display: block !important;
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.32) 46%, transparent 62%);
+  animation: serumShimmer 12s ease-in-out infinite !important;
+}
+
+.products-page-card > * {
+  position: relative;
+  z-index: 1;
 }

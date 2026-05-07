@@ -2,6 +2,116 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { supabase } from "../supabaseClient";
 
+function IngredientCard({ ingredient }) {
+  const [open, setOpen] = useState(false);
+
+  const summary = Array.isArray(ingredient.Ingredient_Research_Summary)
+    ? ingredient.Ingredient_Research_Summary[0]
+    : ingredient.Ingredient_Research_Summary;
+
+  const articles = ingredient.Ingredient_Research_Articles || [];
+  const topArticles = articles
+    .filter((row) => row?.Research_Articles?.url || row?.Research_Articles?.title)
+    .slice(0, 5);
+
+  const evidenceLabel = summary?.strongest_evidence || "Research available";
+  const benefitLabel = summary?.top_benefit_claims ? "Benefits found" : "General info";
+  const riskLabel = summary?.top_risk_claims ? "Risks noted" : "Low detail";
+
+  return (
+    <article className={`ingredient-research-card ${open ? "open" : ""}`}>
+      <button
+        type="button"
+        className="ingredient-card-header"
+        onClick={() => setOpen((current) => !current)}
+        aria-expanded={open}
+      >
+        <div className="ingredient-card-title-block">
+          <span className="ingredient-number">{ingredient.ingredient_order}</span>
+
+          <div>
+            <h4>{ingredient.ingredient_name}</h4>
+            <div className="ingredient-card-badges">
+              <span>{benefitLabel}</span>
+              <span>{riskLabel}</span>
+              <span>{articles.length} articles</span>
+            </div>
+          </div>
+        </div>
+
+        <span className="ingredient-toggle-icon">{open ? "−" : "+"}</span>
+      </button>
+
+      <div className="ingredient-card-body-wrapper">
+        <div className="ingredient-card-body">
+          <p className="ingredient-summary-text">
+            {summary?.ingredient_summary || "No ingredient summary available yet."}
+          </p>
+
+          <div className="ingredient-insight-grid">
+            <div className="ingredient-insight-card">
+              <span>Benefits</span>
+              <p>{summary?.top_benefit_claims || "No benefit claims listed."}</p>
+            </div>
+
+            <div className="ingredient-insight-card">
+              <span>Risks</span>
+              <p>{summary?.top_risk_claims || "No risk claims listed."}</p>
+            </div>
+
+            <div className="ingredient-insight-card">
+              <span>Evidence</span>
+              <p>{evidenceLabel}</p>
+            </div>
+          </div>
+
+          <div className="research-links-header">
+            <h5>Research Articles</h5>
+            <span>{topArticles.length} shown</span>
+          </div>
+
+          {topArticles.length > 0 ? (
+            <div className="research-link-list smooth-research-list">
+              {topArticles.map((row, index) => {
+                const article = row.Research_Articles;
+
+                return (
+                  <a
+                    key={`${ingredient.ingredient_id}-${article?.url || index}`}
+                    href={article?.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="research-link-card smooth-research-card"
+                  >
+                    <div>
+                      <p className="research-category-line">
+                        <strong>{row.research_category || "Research"}</strong>
+                        {row.evidence_strength && ` • ${row.evidence_strength}`}
+                      </p>
+
+                      <h6>{article?.title || "View research article"}</h6>
+
+                      <p className="muted-text">
+                        {[article?.journal, article?.publication_year]
+                          .filter(Boolean)
+                          .join(" • ")}
+                      </p>
+                    </div>
+
+                    <span className="research-arrow">↗</span>
+                  </a>
+                );
+              })}
+            </div>
+          ) : (
+            <p className="no-research-text">No research links available.</p>
+          )}
+        </div>
+      </div>
+    </article>
+  );
+}
+
 function ProductDetail() {
   const { id } = useParams();
 
@@ -10,6 +120,8 @@ function ProductDetail() {
 
   useEffect(() => {
     async function getProduct() {
+      setLoading(true);
+
       const { data, error } = await supabase
         .from("Products")
         .select(`
@@ -26,7 +138,26 @@ function ProductDetail() {
             percentage,
             ingredient_order,
             Ingredients (
-              ingredient_name
+              ingredient_id,
+              ingredient_name,
+              Ingredient_Research_Summary (
+                ingredient_summary,
+                top_benefit_claims,
+                top_risk_claims,
+                strongest_evidence
+              ),
+              Ingredient_Research_Articles (
+                research_category,
+                evidence_direction,
+                evidence_strength,
+                relevance_score,
+                Research_Articles (
+                  title,
+                  journal,
+                  publication_year,
+                  url
+                )
+              )
             )
           ),
           Product_Highlights (
@@ -53,6 +184,8 @@ function ProductDetail() {
 
       if (!error) {
         setProduct(data);
+      } else {
+        setProduct(null);
       }
 
       setLoading(false);
@@ -81,8 +214,12 @@ function ProductDetail() {
   const ingredients =
     product.Product_Ingredient
       ?.sort((a, b) => a.ingredient_order - b.ingredient_order)
-      .map((row) => row.Ingredients?.ingredient_name)
-      .filter(Boolean) || [];
+      .map((row) => ({
+        ingredient_order: row.ingredient_order,
+        percentage: row.percentage,
+        ...row.Ingredients,
+      }))
+      .filter((ingredient) => ingredient?.ingredient_name) || [];
 
   const highlights =
     product.Product_Highlights?.map(
@@ -102,8 +239,8 @@ function ProductDetail() {
   return (
     <div className="page-shell">
       <div className="product-detail-card">
-      <div className="product-detail-layout single-column-detail">
-        <div className="product-detail-content">
+        <div className="product-detail-layout single-column-detail">
+          <div className="product-detail-content">
             <h1 className="product-detail-name">{product.prod_name}</h1>
 
             <p className="product-detail-brand">
@@ -115,8 +252,9 @@ function ProductDetail() {
               alt={product.prod_name}
               className="product-detail-main-image"
             />
+
             <p className="product-detail-description">
-              {product.description || "No description available."}
+              {product.description || "No Product Description Available"}
             </p>
 
             <div className="product-detail-section">
@@ -169,22 +307,18 @@ function ProductDetail() {
               )}
             </div>
 
-            <div className="product-detail-section">
-              <details className="ingredient-dropdown">
+            <div className="product-detail-section ingredient-research-section">
+              {/* Replace your always-visible ingredients block with this pattern inside ProductDetails.jsx */}
+              <details className="product-ingredients-dropdown">
                 <summary>Ingredient Details</summary>
-
-                <div className="ingredient-dropdown-content">
-                  {ingredients.length > 0 ? (
-                    <div className="ingredients-list">
+                <div className="product-ingredients-dropdown-content">
+                    {ingredients.length > 0 ? (
+                    <div className="ingredients-list smooth-ingredients-list">
                       {ingredients.map((ingredient) => (
-                        <details key={ingredient} className="ingredient-dropdown">
-                          <summary>{ingredient}</summary>
-
-                          <div className="ingredient-dropdown-content">
-                            <p>Description coming soon.</p>
-                            <p>Research links coming soon.</p>
-                          </div>
-                        </details>
+                        <IngredientCard
+                          key={`${ingredient.ingredient_id}-${ingredient.ingredient_order}`}
+                          ingredient={ingredient}
+                        />
                       ))}
                     </div>
                   ) : (

@@ -1,16 +1,92 @@
+/* index.css — Tropical skincare theme, global reset, shared layout, reusable UI */
+
 :root {
-  --blue: #c8dbe1;
-  --sage: #8a9691;
-  --light-gray: #dddddd;
-  --soft-gray: #e7e7e7;
+  /* Tropical palette from the reference image */
+  --soft-fern: #c2bc9f;
+  --tropical-olive: #756c37;
+  --citrus-grove: #aea45e;
+  --ocean-breeze: #d0dbe4;
+  --dried-palm-leaf: #3d3b16;
+  --morning-shore: #f4f6f7;
+
+  /* App neutrals */
   --white: #ffffff;
-  --text: #2f3433;
-  --muted: #6f7774;
-  --border: rgba(138, 150, 145, 0.22);
-  --shadow: 0 18px 45px rgba(47, 52, 51, 0.08);
+  --porcelain: #fbfcfb;
+  --cream: var(--morning-shore);
+  --linen: #eef4f2;
+  --ivory-mist: #edf3ed;
+  --stone: #d8d8c8;
+  --soft-taupe: var(--soft-fern);
+  --dust-rose: #cfc7a4;
+  --muted-clay: var(--citrus-grove);
+  --olive-smoke: var(--tropical-olive);
+  --sage-accent: var(--soft-fern);
+  --deep-olive: var(--dried-palm-leaf);
+  --olive-gray: #60653a;
+  --espresso: var(--dried-palm-leaf);
+  --charcoal: #26301a;
+  --muted-text: #687054;
+
+  /* Compatibility aliases used by app.css */
+  --dust-grey: var(--morning-shore);
+  --dry-sage: var(--soft-fern);
+  --fern: var(--tropical-olive);
+  --hunter-green: var(--dried-palm-leaf);
+  --pine-teal: var(--dried-palm-leaf);
+  --bright-fern: #8fa63f;
+  --radioactive-grass: #d6dd7d;
+  --slime-lime: #eef3b5;
+
+  --dark-spruce: var(--dried-palm-leaf);
+  --green: var(--tropical-olive);
+  --green-2: var(--citrus-grove);
+  --green-3: var(--bright-fern);
+  --chartreuse: var(--radioactive-grass);
+  --black-forest: var(--dried-palm-leaf);
+  --black-forest-2: var(--charcoal);
+  --olive-leaf: var(--tropical-olive);
+  --forest-moss: var(--citrus-grove);
+  --sage-green: var(--soft-fern);
+  --willow-green: var(--slime-lime);
+
+  --frosted-mint: var(--morning-shore);
+  --celadon: var(--ocean-breeze);
+  --celadon-2: var(--soft-fern);
+  --mint-leaf: var(--citrus-grove);
+  --mint-leaf-2: var(--tropical-olive);
+  --sea-green: var(--olive-gray);
+  --dark-emerald: var(--dried-palm-leaf);
+  --evergreen: var(--dried-palm-leaf);
+  --wood-wash: var(--morning-shore);
+  --wood-surface: var(--white);
+  --wood-border: rgba(174, 164, 94, 0.34);
+
+  /* App tokens */
+  --white-card: rgba(255, 255, 255, 0.96);
+  --text: var(--espresso);
+  --muted: var(--muted-text);
+  --muted-deep: var(--charcoal);
+  --sage: var(--tropical-olive);
+  --blue: var(--ocean-breeze);
+  --light-gray: var(--stone);
+  --soft-gray: var(--morning-shore);
+  --green-wash: #f5f7ee;
+  --green-surface: #f7faf3;
+  --green-surface-strong: #eef3dc;
+  --soft-sand: #f7f8ef;
+  --earth-green-soft: var(--soft-fern);
+  --earth-green-dark: var(--dried-palm-leaf);
+  --border: rgba(117, 108, 55, 0.28);
+  --border-strong: rgba(174, 164, 94, 0.72);
+  --pop-border: rgba(174, 164, 94, 0.95);
+  --shadow: 0 18px 45px rgba(61, 59, 22, 0.10);
+  --shadow-hover: 0 24px 58px rgba(61, 59, 22, 0.18);
+  --focus-ring: 0 0 0 4px rgba(174, 164, 94, 0.28);
+  --tropical-glow: 0 0 0 4px rgba(208, 219, 228, 0.42), 0 22px 50px rgba(117, 108, 55, 0.18);
   --radius-lg: 28px;
-  --radius-md: 18px;
+  --radius-md: 20px;
 }
+
 
 * {
   box-sizing: border-box;
@@ -18,13 +94,69 @@
   padding: 0;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
+  min-height: 100vh;
   font-family: Inter, Arial, Helvetica, sans-serif;
-  background:
-    radial-gradient(circle at 12% 18%, rgba(200, 219, 225, 0.55), transparent 28%),
-    radial-gradient(circle at 88% 78%, rgba(138, 150, 145, 0.18), transparent 34%),
-    linear-gradient(135deg, #f8f9f9, #e7e7e7);
   color: var(--text);
+  background:
+    radial-gradient(circle at 12% 18%, rgba(208, 219, 228, 0.68), transparent 29%),
+    radial-gradient(circle at 84% 16%, rgba(194, 188, 159, 0.36), transparent 27%),
+    radial-gradient(circle at 76% 84%, rgba(174, 164, 94, 0.22), transparent 34%),
+    linear-gradient(135deg, var(--morning-shore) 0%, #f9fbfa 34%, #eef6f5 64%, var(--ocean-breeze) 100%);
+  overflow-x: hidden;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -2;
+  background:
+    linear-gradient(115deg, transparent 0 42%, rgba(117, 108, 55, 0.10) 43% 44%, transparent 45% 100%),
+    linear-gradient(62deg, transparent 0 52%, rgba(174, 164, 94, 0.08) 53% 54%, transparent 55% 100%);
+  background-size: 420px 420px, 560px 560px;
+  animation: tropicalDrift 22s linear infinite;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0.55;
+  background:
+    radial-gradient(ellipse at 20% 10%, rgba(61, 59, 22, 0.10), transparent 22%),
+    radial-gradient(ellipse at 92% 20%, rgba(117, 108, 55, 0.12), transparent 24%),
+    radial-gradient(ellipse at 8% 85%, rgba(174, 164, 94, 0.12), transparent 28%);
+  animation: tropicalGlow 12s ease-in-out infinite alternate;
+}
+
+@keyframes tropicalDrift {
+  from { background-position: 0 0, 0 0; }
+  to { background-position: 420px 420px, -560px 560px; }
+}
+
+@keyframes tropicalGlow {
+  from { transform: translate3d(0, 0, 0) scale(1); opacity: 0.42; }
+  to { transform: translate3d(0, -14px, 0) scale(1.03); opacity: 0.68; }
+}
+
+body::selection {
+  background: rgba(127, 163, 93, 0.38);
+  color: var(--espresso);
+}
+
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
 }
 
 a {
@@ -32,10 +164,13 @@ a {
   text-decoration: none;
 }
 
-button,
-input,
-textarea {
-  font-family: inherit;
+button {
+  border: none;
+}
+
+.app {
+  min-height: 100vh;
+  background: transparent;
 }
 
 .page-shell {
@@ -46,30 +181,29 @@ textarea {
   align-items: center;
 }
 
-.page-card, 
+.page-card,
 .products-page-card,
 .review-page-card,
 .product-detail-card,
-.quiz-container {
+.quiz-container,
+.card {
   width: 100%;
-  background: rgba(255, 255, 255, 0.92);
+  background: rgba(255, 255, 255, 0.96);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow);
+  backdrop-filter: blur(12px);
 }
 
 .page-card {
   max-width: 1100px;
   padding: 72px 56px;
   text-align: center;
-
-  background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(248, 250, 250, 0.92));
-  border: 1px solid rgba(138, 150, 145, 0.18);
+  background: linear-gradient(135deg, var(--white) 0%, var(--white) 60%, rgba(241, 236, 228, 0.80) 100%);
   border-radius: 34px;
   box-shadow:
-  0 30px 80px rgba(47, 52, 51, 0.16),
-  0 8px 24px rgba(200, 219, 225, 0.35);
+    0 30px 80px rgba(50, 44, 40, 0.11),
+    0 8px 28px rgba(127, 163, 93, 0.18);
 }
 
 .page-card h1,
@@ -105,15 +239,15 @@ textarea {
 #nextBtn,
 #prevBtn,
 #restartBtn {
-  border: none;
   border-radius: 999px;
   padding: 13px 22px;
-  font-weight: 700;
+  font-weight: 800;
   font-size: 0.95rem;
-  background: var(--blue);
-  color: var(--text);
+  background: var(--olive-smoke);
+  color: var(--white);
   cursor: pointer;
-  transition: 0.25s ease;
+  transition: transform 0.25s ease, background 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
+  box-shadow: 0 10px 24px rgba(111, 127, 82, 0.20);
 }
 
 .page-btn:hover,
@@ -123,13 +257,38 @@ textarea {
 #prevBtn:hover,
 #restartBtn:hover {
   transform: translateY(-2px);
-  background: var(--sage);
-  color: white;
+  background: var(--deep-olive);
+  color: var(--white);
+  box-shadow: 0 16px 34px rgba(40, 54, 24, 0.22);
 }
 
 .secondary-btn,
 .retailer-btn {
-  background: var(--soft-gray);
+  background: var(--ivory-mist);
+  color: var(--espresso);
+  border: 1px solid var(--border);
+}
+
+.secondary-btn:hover,
+.retailer-btn:hover {
+  background: var(--sage-accent);
+  color: var(--espresso);
+  border-color: var(--border-strong);
+}
+
+input,
+select,
+textarea {
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--sage-accent);
+  box-shadow: var(--focus-ring);
 }
 
 @media (max-width: 700px) {
@@ -142,205 +301,145 @@ textarea {
   }
 }
 
-.ingredients-list {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-top: 14px;
-}
 
-.ingredient-dropdown {
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  background: rgba(255, 255, 255, 0.88);
-  overflow: hidden;
-}
-
-.ingredient-dropdown summary {
-  cursor: pointer;
-  padding: 14px 18px;
-  font-weight: 700;
-  color: var(--text);
-  list-style: none;
-}
-
-.ingredient-dropdown summary::-webkit-details-marker {
-  display: none;
-}
-
-.ingredient-dropdown summary::after {
-  content: "+";
-  float: right;
-  color: var(--sage);
-  font-size: 1.2rem;
-}
-
-.ingredient-dropdown[open] summary::after {
-  content: "−";
-}
-
-.ingredient-dropdown-content {
-  padding: 0 18px 16px;
-  color: var(--muted);
-  line-height: 1.6;
-  border-top: 1px solid var(--border);
-}
-
-.single-column-detail {
-  display: block;
-}
-
-.product-detail-content {
-  width: 100%;
-}
-.product-image {
-  width: 100%;
-  height: 220px;
-  display: block;
-  border-radius: var(--radius-md);
-  padding: 18px;
-  margin-bottom: 18px;
-}
-.product-detail-main-image {
-  display: block;
-  width: min(420px, 100%);
-  max-height: 420px;
-  object-fit: contain;
-  margin: 24px auto 32px;
-  border-radius: var(--radius-lg);
-  background: #ffffff;
-  border: 1px solid rgba(138, 150, 145, 0.18);
-  padding: 22px;
-  box-shadow:
-    0 18px 45px rgba(47, 52, 51, 0.08),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.7);
-}
-
-.detail-highlight-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, 150px);
-  justify-content: center;
-  gap: 18px;
-  margin-top: 16px;
-}
-
-.detail-highlight-card {
-  width: 150px;
-  height: 150px;
-  background: linear-gradient(145deg, var(--white), var(--soft-gray));
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
+/* Tropical shared polish */
+.page-card,
+.products-page-card,
+.review-page-card,
+.product-detail-card,
+.quiz-container,
+.card {
+  border-color: var(--border);
+  background: rgba(255, 255, 255, 0.94);
   box-shadow: var(--shadow);
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 14px;
-  text-align: center;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
-.detail-highlight-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 22px 50px rgba(47, 52, 51, 0.14);
+.page-card {
+  background:
+    linear-gradient(135deg, rgba(255,255,255,0.96), rgba(244,246,247,0.92)),
+    radial-gradient(circle at 90% 8%, rgba(208,219,228,0.45), transparent 30%);
 }
 
-.detail-highlight-icon {
-  width: 52px;
-  height: 52px;
-  border-radius: 18px;
-  background: var(--blue);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.6rem;
+.page-btn,
+.product-btn,
+.comment-btn,
+#nextBtn,
+#prevBtn,
+#restartBtn {
+  background: var(--tropical-olive);
+  color: var(--white);
+  box-shadow: 0 10px 24px rgba(117,108,55,0.22);
 }
 
-.detail-highlight-card p {
-  color: var(--text);
-  font-weight: 700;
-  font-size: 0.95rem;
-  line-height: 1.35;
+.page-btn:hover,
+.product-btn:hover,
+.comment-btn:hover,
+#nextBtn:hover,
+#prevBtn:hover,
+#restartBtn:hover {
+  background: var(--dried-palm-leaf);
+  box-shadow: 0 16px 34px rgba(61,59,22,0.26);
 }
 
-.skin-type-card-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-top: 14px;
-  justify-content: center;
+.secondary-btn,
+.retailer-btn {
+  background: var(--morning-shore);
+  color: var(--dried-palm-leaf);
+  border: 1px solid rgba(174,164,94,0.52);
 }
 
-.skin-type-mini-card {
-  min-width: 105px;
-  padding: 12px 16px;
-  background: var(--white);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  box-shadow: 0 10px 24px rgba(47, 52, 51, 0.08);
-  color: var(--text);
-  font-size: 0.9rem;
-  font-weight: 700;
-  text-align: center;
+.secondary-btn:hover,
+.retailer-btn:hover {
+  background: var(--citrus-grove);
+  color: var(--white);
+  border-color: var(--tropical-olive);
 }
 
-.skin-concern-card-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(125px, 1fr));
-  gap: 14px;
-  margin-top: 14px;
+/* ==========================================================
+   Tropical Spa Background System
+   Home: sunlight through leaves
+   Products: soft water ripple
+   Product Detail: glass/dew-drop spa glow
+   ========================================================== */
+:root {
+  --spa-water: rgba(208, 219, 228, 0.78);
+  --spa-water-soft: rgba(208, 219, 228, 0.38);
+  --spa-leaf-shadow: rgba(61, 59, 22, 0.10);
+  --spa-leaf-shadow-deep: rgba(117, 108, 55, 0.16);
+  --spa-dew: rgba(255, 255, 255, 0.58);
+  --spa-glow: rgba(174, 164, 94, 0.18);
 }
 
-.skin-concern-card {
-  min-height: 115px;
-  background: var(--white);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  box-shadow: 0 14px 32px rgba(47, 52, 51, 0.09);
-  padding: 18px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  text-align: center;
+body {
+  background:
+    radial-gradient(circle at 12% 18%, rgba(208, 219, 228, 0.72), transparent 30%),
+    radial-gradient(circle at 84% 16%, rgba(194, 188, 159, 0.28), transparent 27%),
+    radial-gradient(circle at 76% 84%, rgba(174, 164, 94, 0.18), transparent 34%),
+    linear-gradient(135deg, var(--morning-shore) 0%, #ffffff 36%, #f3f8f7 64%, var(--ocean-breeze) 100%);
 }
 
-.skin-concern-icon {
-  width: 42px;
-  height: 42px;
-  border-radius: 15px;
-  background: var(--blue);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.3rem;
+/* Softer global movement so it feels premium, not busy */
+body::before {
+  background:
+    radial-gradient(ellipse at 18% 14%, rgba(117, 108, 55, 0.10), transparent 26%),
+    radial-gradient(ellipse at 90% 20%, rgba(61, 59, 22, 0.08), transparent 30%),
+    linear-gradient(115deg, transparent 0 45%, rgba(117, 108, 55, 0.055) 46% 47%, transparent 48% 100%);
+  background-size: 620px 620px, 760px 760px, 520px 520px;
+  animation: spaLeafDrift 30s ease-in-out infinite alternate;
 }
 
-.skin-concern-card p {
-  font-size: 0.92rem;
-  font-weight: 700;
-  color: var(--text);
+body::after {
+  background:
+    radial-gradient(circle at 12% 22%, rgba(255, 255, 255, 0.60) 0 1px, transparent 2px),
+    radial-gradient(circle at 72% 18%, rgba(208, 219, 228, 0.45) 0 1px, transparent 2px),
+    radial-gradient(circle at 42% 82%, rgba(255, 255, 255, 0.42) 0 1px, transparent 2px);
+  background-size: 90px 120px, 130px 150px, 160px 190px;
+  opacity: 0.55;
+  animation: spaDewFloat 18s linear infinite;
 }
 
-.pagination-buttons {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 18px;
-  margin-top: 42px;
-  margin-bottom: 20px;
+@keyframes spaLeafDrift {
+  from { transform: translate3d(-18px, -10px, 0) scale(1); opacity: 0.52; }
+  to { transform: translate3d(26px, 18px, 0) scale(1.04); opacity: 0.72; }
 }
 
-.pagination-buttons button:disabled {
-  opacity: 0.45;
-  cursor: not-allowed;
-  transform: none;
+@keyframes spaDewFloat {
+  from { background-position: 0 0, 0 0, 0 0; }
+  to { background-position: 90px 160px, -130px 180px, 160px 220px; }
 }
 
-.page-count {
-  color: var(--text);
-  font-weight: 700;
-  font-size: 0.95rem;
+@keyframes softWaterRipple {
+  0% { background-position: 0 0, 0 0, 0 0; }
+  50% { background-position: 120px 40px, -90px 80px, 40px -60px; }
+  100% { background-position: 240px 80px, -180px 160px, 80px -120px; }
+}
+
+@keyframes leafShadowSway {
+  from { transform: translate3d(-24px, -16px, 0) rotate(-1deg); opacity: 0.32; }
+  to { transform: translate3d(28px, 18px, 0) rotate(1.5deg); opacity: 0.48; }
+}
+
+@keyframes serumShimmer {
+  from { transform: translateX(-40%) rotate(10deg); opacity: 0; }
+  30% { opacity: 0.46; }
+  to { transform: translateX(140%) rotate(10deg); opacity: 0; }
+}
+
+
+/* ==========================================================
+   Final background adjustment
+   Neutral app background. Only the Products page shell keeps animation.
+   ========================================================== */
+body {
+  background:
+    radial-gradient(circle at 12% 18%, rgba(208, 219, 228, 0.28), transparent 30%),
+    radial-gradient(circle at 88% 82%, rgba(194, 188, 159, 0.18), transparent 32%),
+    linear-gradient(135deg, #f4f6f7 0%, #ffffff 48%, #f1f4f2 100%) !important;
+}
+
+body::before,
+body::after {
+  content: none !important;
+  display: none !important;
+  animation: none !important;
 }

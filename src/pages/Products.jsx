@@ -285,7 +285,7 @@ function Products() {
                     <h3>{product.prod_name}</h3>
 
                     <p className="product-description">
-                      {product.description || "No description available."}
+                      {product.description || ""}
                     </p>
 
                     {product.size && (

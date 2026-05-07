@@ -11,9 +11,11 @@ function Home() {
 
   return (
     <div className="page-card hero-card">
-      <button onClick={handleLogout} className="logout-btn">
-        Log Out
-      </button>
+      <div className="hero-top-row">
+        <button onClick={handleLogout} className="logout-btn">
+          Log Out
+        </button>
+      </div>
 
       <h1 className="hero-logo">PoreDecisions</h1>
 
@@ -28,15 +30,21 @@ function Home() {
         quiz to build a routine based on your skin type, concerns, and goals.
       </p>
 
-      <div className="page-buttons">
-        <Link to="/quiz" className="page-btn">
-          Take the Quiz
-        </Link>
-        <Link to="/products" className="page-btn secondary-btn">
-          Browse Products
+      <div className="hero-nav-grid">
+        <Link to="/" className="page-btn">
+          Home
         </Link>
         <Link to="/reviews" className="page-btn secondary-btn">
-          Read Reviews
+          Reviews
+        </Link>
+        <Link to="/products" className="page-btn secondary-btn">
+          Products
+        </Link>
+        <Link to="/quiz" className="page-btn secondary-btn">
+          Quiz
+        </Link>
+        <Link to="/skin" className="page-btn secondary-btn">
+          Skin
         </Link>
       </div>
 
