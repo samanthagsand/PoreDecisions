@@ -8,6 +8,7 @@ function Reviews() {
   const [products, setProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [reviews, setReviews] = useState([]);
+  const [anonymousReviews, setAnonymousReviews] = useState([]);
 
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedProductId, setSelectedProductId] = useState(null);
@@ -38,6 +39,7 @@ function Reviews() {
 
       if (!error && data) {
         setProducts(data);
+
         if (id) {
           setSelectedProductId(Number(id));
         } else if (data.length > 0) {
@@ -69,11 +71,7 @@ function Reviews() {
         .eq("prod_id", selectedProductId)
         .single();
 
-      if (!error && data) {
-        setSelectedProduct(data);
-      } else {
-        setSelectedProduct(null);
-      }
+      setSelectedProduct(!error && data ? data : null);
     }
 
     getSelectedProduct();
@@ -85,15 +83,35 @@ function Reviews() {
     async function getReviews() {
       setLoadingReviews(true);
 
-      const { data, error } = await supabase
+      const { data: anonData, error: anonError } = await supabase
+        .from("Anonymous Reviews")
+        .select(`
+          rev_id,
+          review_text,
+          rating,
+          user,
+          prodID
+        `)
+        .eq("prodID", selectedProductId)
+        .limit(5);
+
+      if (!anonError) {
+        setAnonymousReviews(anonData || []);
+      } else {
+        console.error("Anonymous reviews error:", anonError);
+        setAnonymousReviews([]);
+      }
+
+      const { data: userData, error: userError } = await supabase
         .from("Reviews")
         .select("*")
         .eq("prod_id", selectedProductId)
         .order("review_id", { ascending: false });
 
-      if (!error) {
-        setReviews(data || []);
+      if (!userError) {
+        setReviews(userData || []);
       } else {
+        console.error("User reviews error:", userError);
         setReviews([]);
       }
 
@@ -107,21 +125,31 @@ function Reviews() {
     return products.filter((product) => {
       const productName = product.prod_name || "";
       const brandName = product.Brands?.brand_name || "";
+
       return `${productName} ${brandName}`
         .toLowerCase()
         .includes(searchTerm.toLowerCase());
     });
   }, [products, searchTerm]);
 
+  const allRatings = useMemo(() => {
+    return [...anonymousReviews, ...reviews].filter(
+      (review) => review.rating !== null && review.rating !== undefined
+    );
+  }, [anonymousReviews, reviews]);
+
   const averageRating = useMemo(() => {
-    const validReviews = reviews.filter((review) => review.rating !== null);
-    if (validReviews.length === 0) return "0.0";
-    const total = validReviews.reduce(
+    if (allRatings.length === 0) return "0.0";
+
+    const total = allRatings.reduce(
       (sum, review) => sum + Number(review.rating),
       0
     );
-    return (total / validReviews.length).toFixed(1);
-  }, [reviews]);
+
+    return (total / allRatings.length).toFixed(1);
+  }, [allRatings]);
+
+  const totalReviewCount = anonymousReviews.length + reviews.length;
 
   const handleAddReview = async () => {
     if (!selectedProduct) return;
@@ -170,7 +198,7 @@ function Reviews() {
   };
 
   const renderStars = (rating) => {
-    const safeRating = Math.max(0, Math.min(5, Number(rating) || 0));
+    const safeRating = Math.max(0, Math.min(5, Math.round(Number(rating) || 0)));
     return "★".repeat(safeRating) + "☆".repeat(5 - safeRating);
   };
 
@@ -239,15 +267,17 @@ function Reviews() {
 
               <div className="product-info">
                 <h3>{selectedProduct.prod_name}</h3>
+
                 <p className="brand-name">
                   {selectedProduct.Brands?.brand_name || "Unknown Brand"}
                 </p>
+
                 <p className="rating-line">
                   <span className="review-stars">
-                    {renderStars(Math.round(Number(averageRating)))}
+                    {renderStars(averageRating)}
                   </span>
                   <span>
-                    {averageRating} ({reviews.length} Reviews)
+                    {averageRating} ({totalReviewCount} Reviews)
                   </span>
                 </p>
               </div>
@@ -290,7 +320,11 @@ function Reviews() {
               />
 
               {submitMessage && (
-                <p style={{ color: submitMessage.includes("Failed") ? "red" : "green" }}>
+                <p
+                  style={{
+                    color: submitMessage.includes("Failed") ? "red" : "green",
+                  }}
+                >
                   {submitMessage}
                 </p>
               )}
@@ -300,30 +334,59 @@ function Reviews() {
               </button>
             </div>
 
-            <h2 className="section-heading">Customer Reviews</h2>
+            <h2 className="section-heading">Anonymous Reviews</h2>
 
             {loadingReviews ? (
-              <p>Loading customer reviews...</p>
+              <p>Loading reviews...</p>
             ) : (
               <div className="reviews-list">
-                {reviews.length > 0 ? (
-                  reviews.map((review) => (
-                    <div key={review.review_id} className="customer-review-card">
+                {anonymousReviews.length > 0 ? (
+                  anonymousReviews.map((review) => (
+                    <div key={review.rev_id} className="customer-review-card">
                       <p className="customer-stars">
                         {review.rating !== null
-                          ? renderStars(Number(review.rating))
+                          ? renderStars(review.rating)
                           : "No rating"}
                       </p>
-                      <h4>{review.title || "Review"}</h4>
-                      <p>"{review.content}"</p>
-                      <p className="review-user">- Anonymous</p>
+
+                      <h4>Anonymous Review</h4>
+
+                      <p>"{review.review_text}"</p>
+
+                      <p className="review-user">
+                        - {review.user || "Anonymous"}
+                      </p>
                     </div>
                   ))
                 ) : (
-                  <p>No reviews yet. Be the first to write one!</p>
+                  <p>No anonymous reviews found for this product.</p>
                 )}
               </div>
             )}
+
+            <h2 className="section-heading">Customer Reviews</h2>
+
+            <div className="reviews-list">
+              {reviews.length > 0 ? (
+                reviews.map((review) => (
+                  <div key={review.review_id} className="customer-review-card">
+                    <p className="customer-stars">
+                      {review.rating !== null
+                        ? renderStars(review.rating)
+                        : "No rating"}
+                    </p>
+
+                    <h4>{review.title || "Review"}</h4>
+
+                    <p>"{review.content}"</p>
+
+                    <p className="review-user">- User Review</p>
+                  </div>
+                ))
+              ) : (
+                <p>No customer reviews yet. Be the first to write one!</p>
+              )}
+            </div>
           </>
         ) : (
           <p>No product selected.</p>

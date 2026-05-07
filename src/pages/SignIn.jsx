@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { supabase } from "../supabaseClient";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 function SignIn() {
   const navigate = useNavigate();
@@ -10,6 +10,8 @@ function SignIn() {
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const [searchParams] = useSearchParams();
+  const redirectTo = searchParams.get("redirectTo") || "/home";
 
   const handleAuth = async (e) => {
     e.preventDefault();
@@ -42,7 +44,7 @@ function SignIn() {
       return;
     }
 
-    navigate("/home");
+    navigate(redirectTo);
   };
 
   return (

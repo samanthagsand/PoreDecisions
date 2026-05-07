@@ -1,10 +1,10 @@
-import { Link, useLocation } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import "./Navbar.css";
 
 function Navbar() {
   const location = useLocation();
 
-  if (location.pathname === "/" || location.pathname === "/home" || location.pathname === "/signin") {
+  if (location.pathname === "/" || location.pathname === "/signin") {
     return null;
   }
 
@@ -13,11 +13,12 @@ function Navbar() {
       <div className="navbar-brand">PoreDecisions</div>
 
       <div className="navbar-links">
-        <Link to="/home">Home</Link>
-        <Link to="/reviews">Reviews</Link>
-        <Link to="/products">Products</Link>
-        <Link to="/quiz">Quiz</Link>
-        <Link to="/skin">Skin</Link>
+        <NavLink to="/">Home</NavLink>
+        <NavLink to="/reviews">Reviews</NavLink>
+        <NavLink to="/products">Products</NavLink>
+        <NavLink to="/quiz">Quiz</NavLink>
+        <NavLink to="/skin">Skin</NavLink>
+        <NavLink to="/routine">Routine</NavLink>
       </div>
     </nav>
   );

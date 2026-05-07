@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { supabase } from "../supabaseClient";
+import { useNavigate, useSearchParams } from "react-router-dom";
+
+
 
 const PRODUCTS_PER_PAGE = 50;
 
@@ -23,6 +26,12 @@ function Products() {
   const [categories, setCategories] = useState([]);
   const [skinTypes, setSkinTypes] = useState([]);
   const [skinConcerns, setSkinConcerns] = useState([]);
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+
+  const routineStep = searchParams.get("routineStep");
+  const timeOfDay = searchParams.get("timeOfDay");
+  const returnTo = searchParams.get("returnTo");
 
   const totalPages = Math.ceil(totalProducts / PRODUCTS_PER_PAGE);
 
@@ -171,6 +180,33 @@ function Products() {
     getProducts();
   }, [page, searchTerm, categoryFilter, skinTypeFilter, skinConcernFilter]);
 
+  async function addProductToRoutine(product) {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+  
+    if (!user) {
+      navigate(
+        `/signin?redirectTo=${encodeURIComponent(
+          `/products?routineStep=${routineStep}&timeOfDay=${timeOfDay}&returnTo=/routine`
+        )}`
+      );
+      return;
+    }
+  
+    const addedProduct = {
+      routineStep,
+      timeOfDay,
+      product,
+    };
+  
+    navigate(
+      `${returnTo}?addedProduct=${encodeURIComponent(
+        JSON.stringify(addedProduct)
+      )}`
+    );
+  }
+
   function applyFilters() {
     setSearchTerm(draftSearchTerm);
     setCategoryFilter(draftCategoryFilter);
@@ -313,6 +349,16 @@ function Products() {
                       >
                         View Details
                       </Link>
+
+                      {routineStep && timeOfDay && (
+                        <button
+                          type="button"
+                          className="routine-add-btn"
+                          onClick={() => addProductToRoutine(product)}
+                        >
+                          Add to {timeOfDay} {routineStep}
+                        </button>
+                      )}
 
                       {product.website_url && (
                         <a
